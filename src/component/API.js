@@ -11,8 +11,8 @@ const APITest = (props) => {
     }
     return (
         <div className='API-Result'>
-            <p>Status: {apiData.status} | Error Code: {apiData.error_code}</p>
-            <p>Description: {apiData.data[0].description}</p>
+            <p>Message: {apiData.message} | Error Code: {apiData.error_code}</p>
+            <p>Description: {apiData.data.description}</p>
         </div>
     );
 }
