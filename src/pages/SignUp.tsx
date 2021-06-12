@@ -6,12 +6,10 @@ import {
     Theme,
     Typography,
     TextField,
-    Avatar,
-    InputAdornment,
-    IconButton
+    Avatar
 } from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
-import {LockOutlined, Visibility, VisibilityOff} from "@material-ui/icons";
+import {LockOutlined} from "@material-ui/icons";
 import axios from "axios";
 import {api_error_code} from "../const/status";
 
@@ -22,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         height: "auto",
         float: "right",
         marginRight: "100px",
-        marginTop: "10%",
+        marginTop: "5%",
         padding: "32px",
         borderRadius: "10px",
     },
@@ -49,67 +47,84 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 
-export const Login = (props: any) => {
+export const SignUp = (props: any) => {
+    let registerSuccess = false;
     React.useEffect(() => {
         if (localStorage.jwtToken) {
             // @ts-ignore
             props.history.push('/dashboard');
         }
+        if (registerSuccess) {
+            // @ts-ignore
+            props.history.push('/login');
+        }
     });
-
     const classes = useStyles();
     const [inputValues, setInputValues] = React.useState({
+        name: "",
         username: "",
         password: "",
-        showPassword: false,
+        confirmPassword: "",
+
     });
     const handleChange = (prop: any) => (event: any) => {
         setInputValues({...inputValues, [prop]: event.target.value})
     }
-    const handleClickShowPassword = () => {
-        setInputValues({...inputValues, showPassword: !inputValues.showPassword})
-    }
-    const handleMouseDownPassword = (event: any) => {
-        event.preventDefault();
-    }
-    const handleClick = () => {
-        axios({
-            method: "post",
-            url: "http://localhost:8001/login",
-            data: {
-                "username": inputValues.username,
-                "password": inputValues.password
-            }
-        }).then((res) => {
-            setStatusState({
-                data: res.data,
-            });
-        }).catch((err: any) => {
-            if (err.response) {
-                setStatusState({
-                    data: err.response.data,
-                });
-            }
-        });
-    }
     const [statusState, setStatusState] = React.useState({
         data: null,
     });
-    const Status = (props: any) => {
-        if (props.res === null) {
+    const handleClick = () => {
+        if (inputValues.password === inputValues.confirmPassword) {
+            axios({
+                method: "post",
+                url: "http://localhost:8001/user",
+                data: {
+                    "name": inputValues.name,
+                    "username": inputValues.username,
+                    "password": inputValues.password
+                }
+            }).then((res) => {
+                setStatusState({
+                    data: res.data,
+                });
+            }).catch((err: any) => {
+                if (err.response) {
+                    setStatusState({
+                        data: err.response.data,
+                    });
+                }
+            });
+        } else {
+            setStatusState({
+                //@ts-ignore
+                data: {
+                    errorCode: api_error_code.different_password
+                }
+            })
+        }
+    }
+    const Status = (_props: any) => {
+        if (_props.res === null) {
             return (
                 <br/>
             )
         } else {
-            if (props.res.errorCode === api_error_code.no_error) {
-                const {accessToken} = props.res.data;
-                localStorage.setItem('jwtToken', accessToken);
+            if (_props.res.errorCode === api_error_code.no_error) {
+                registerSuccess = true;
                 return (
-                    <Alert severity={"success"}>LoggedIn successfully, redirecting...</Alert>
+                    <Alert severity={"success"}>Registered successfully, redirecting...</Alert>
+                )
+            } else if (_props.res.errorCode === api_error_code.user_registered) {
+                return (
+                    <Alert severity={"error"}>User with username '{_props.res.data.username}' already registered!</Alert>
+                )
+            } else if (_props.res.errorCode === api_error_code.different_password) {
+                return (
+                    <Alert severity={"error"}>Password doesn't match!</Alert>
                 )
             } else {
                 return (
-                    <Alert severity={"error"}>Username or Password is wrong!</Alert>
+                    <Alert severity={"error"}>Something went wrong, please try again.</Alert>
                 )
             }
         }
@@ -117,16 +132,28 @@ export const Login = (props: any) => {
     return (
         <Container component={"main"} className={classes.container}>
             <Typography component={"h1"} variant={"h3"} className={classes.header}>
-                Welcome to Klipboard.me
+                Register your account on Klipboard.me
             </Typography>
             <form className={classes.form} noValidate>
                 <Avatar className={classes.avatar}>
                     <LockOutlined/>
                 </Avatar>
                 <Typography component={"h1"} variant={"h5"}>
-                    Login
+                    SignUp
                 </Typography>
                 <Status res={statusState.data}/>
+                <TextField
+                    required
+                    variant={"outlined"}
+                    margin={"normal"}
+                    fullWidth
+                    id={"name"}
+                    name={"name"}
+                    label={"Name"}
+                    value={inputValues.name}
+                    autoFocus
+                    onChange={handleChange("name")}
+                />
                 <TextField
                     required
                     variant={"outlined"}
@@ -136,7 +163,6 @@ export const Login = (props: any) => {
                     name={"username"}
                     label={"Username"}
                     value={inputValues.username}
-                    autoComplete={"username"}
                     autoFocus
                     onChange={handleChange("username")}
                 />
@@ -146,25 +172,23 @@ export const Login = (props: any) => {
                     margin={"normal"}
                     fullWidth
                     id={"password"}
-                    type={inputValues.showPassword ? "text" : "password"}
+                    type={"password"}
                     name={"password"}
                     label={"Password"}
                     value={inputValues.password}
-                    autoComplete={"current-password"}
                     onChange={handleChange("password")}
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position={"end"}>
-                                <IconButton
-                                    aria-label={"toggle password visibility"}
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                >
-                                    {inputValues.showPassword ? <Visibility/> : <VisibilityOff/>}
-                                </IconButton>
-                            </InputAdornment>
-                        )
-                    }}
+                />
+                <TextField
+                    required
+                    variant={"outlined"}
+                    margin={"normal"}
+                    fullWidth
+                    id={"confirmPassword"}
+                    type={"password"}
+                    name={"confirmPassword"}
+                    label={"Confirm Password"}
+                    value={inputValues.confirmPassword}
+                    onChange={handleChange("confirmPassword")}
                 />
                 <Button
                     fullWidth
@@ -180,4 +204,4 @@ export const Login = (props: any) => {
     )
 }
 
-export default Login;
+export default SignUp;

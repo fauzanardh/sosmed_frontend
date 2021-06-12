@@ -5,6 +5,7 @@ import './App.css';
 import {checkTokenExpired, setAuthToken} from "./utils/authToken";
 import Landing from './pages/Landing';
 import Login from './pages/Login';
+import SignUp from "./pages/SignUp";
 
 if (localStorage.jwtToken) {
     const token = localStorage.jwtToken;
@@ -19,6 +20,7 @@ function App() {
             <Switch>
                 <Route exact path='/' component={Landing}/>
                 <Route exact path='/login' component={Login}/>
+                <Route exact path='/signup' component={SignUp}/>
             </Switch>
         </Router>
     );
