@@ -1,37 +1,26 @@
-import React, {useEffect, useState} from 'react';
-import logo from './logo.svg';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import "@fontsource/roboto";
 import './App.css';
+import {checkTokenExpired, setAuthToken} from "./utils/authToken";
+import Landing from './pages/Landing';
+import Login from './pages/Login';
 
-import API from './component/API'
-import waitLoading from './component/waitLoading'
+if (localStorage.jwtToken) {
+    const token = localStorage.jwtToken;
+    setAuthToken(token);
+    checkTokenExpired(token);
+}
 
 function App() {
-    const ComponentLoading = waitLoading(API);
-    const [appState, setAppState] = useState({
-        loading: false,
-        data: null,
-    })
-
-    useEffect(() => {
-        setAppState({loading: false, data: null});
-        const apiUrl = "/api/v1/test";
-        fetch(apiUrl)
-            .then((response) => response.json())
-            .then((data) => {
-                setAppState({loading: false, data: data});
-            });
-    }, [setAppState]);
 
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo"/>
-                <p>Sosmed Frontend</p>
-                <div className='API'>
-                    <ComponentLoading isLoading={appState.loading} apiData={appState.data}/>
-                </div>
-            </header>
-        </div>
+        <Router>
+            <Switch>
+                <Route exact path='/' component={Landing}/>
+                <Route exact path='/login' component={Login}/>
+            </Switch>
+        </Router>
     );
 }
 
