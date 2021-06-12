@@ -33,7 +33,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build_serve": "react-scripts build && serve -s build"
+    "build_serve": "react-scripts build && serve -s build -p 8000"
   },
   "eslintConfig": {
     "extends": [
