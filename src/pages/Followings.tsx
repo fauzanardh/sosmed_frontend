@@ -34,8 +34,8 @@ const useStyles = makeStyles((theme: Theme) => ({
         marginLeft: "auto",
         width: "100%",
         backgroundColor: theme.palette.background.paper,
-    },
-    list:{
+        overflow: 'auto',
+        maxHeight: '75%',
     }
 }));
 const ListItemLink = (props: any) => {
@@ -50,7 +50,73 @@ export const Followings = (props: any) => {
                 Followings
             </Typography>
             <Container className={classes.root}>
-                <List component="nav" className={classes.list}>
+                <List component="nav">
+                    <ListItem button>
+                    <ListItemIcon>
+                        <Avatar />
+                    </ListItemIcon>
+                    <ListItemText primary="displayName" secondary="@username"/>
+                    </ListItem>
+                    <ListItem button>
+                    <ListItemIcon>
+                        <Avatar />
+                    </ListItemIcon>
+                    <ListItemText primary="displayName" secondary="@username"/>
+                    </ListItem>
+                    <ListItem button>
+                    <ListItemIcon>
+                        <Avatar />
+                    </ListItemIcon>
+                    <ListItemText primary="displayName" secondary="@username"/>
+                    </ListItem>
+                    <ListItem button>
+                    <ListItemIcon>
+                        <Avatar />
+                    </ListItemIcon>
+                    <ListItemText primary="displayName" secondary="@username"/>
+                    </ListItem>
+                    <ListItem button>
+                    <ListItemIcon>
+                        <Avatar />
+                    </ListItemIcon>
+                    <ListItemText primary="displayName" secondary="@username"/>
+                    </ListItem>
+                    <ListItem button>
+                    <ListItemIcon>
+                        <Avatar />
+                    </ListItemIcon>
+                    <ListItemText primary="displayName" secondary="@username"/>
+                    </ListItem>
+                    <ListItem button>
+                    <ListItemIcon>
+                        <Avatar />
+                    </ListItemIcon>
+                    <ListItemText primary="displayName" secondary="@username"/>
+                    </ListItem>
+                    <ListItem button>
+                    <ListItemIcon>
+                        <Avatar />
+                    </ListItemIcon>
+                    <ListItemText primary="displayName" secondary="@username"/>
+                    </ListItem>
+                    <ListItem button>
+                    <ListItemIcon>
+                        <Avatar />
+                    </ListItemIcon>
+                    <ListItemText primary="displayName" secondary="@username"/>
+                    </ListItem>
+                    <ListItem button>
+                    <ListItemIcon>
+                        <Avatar />
+                    </ListItemIcon>
+                    <ListItemText primary="displayName" secondary="@username"/>
+                    </ListItem>
+                    <ListItem button>
+                    <ListItemIcon>
+                        <Avatar />
+                    </ListItemIcon>
+                    <ListItemText primary="displayName" secondary="@username"/>
+                    </ListItem>
                     <ListItem button>
                     <ListItemIcon>
                         <Avatar />
