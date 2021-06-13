@@ -28,16 +28,16 @@ const useStyles = makeStyles((theme: Theme) => ({
         position: "relative",
     },
     header: {
-        marginTop: "10%",
+        marginTop: "30px",
         textAlign: "center"
     },
     root:{
-        marginTop: "20px",
+        marginTop: "10px",
         marginLeft: "auto",
         width: "100%",
         backgroundColor: theme.palette.background.paper,
         overflow: 'auto',
-        maxHeight: '75%',
+        maxHeight: '73%',
     }
 }));
 
