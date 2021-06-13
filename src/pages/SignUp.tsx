@@ -15,14 +15,16 @@ import {api_error_code} from "../const/status";
 
 const useStyles = makeStyles((theme: Theme) => ({
     form: {
-        border: "3px solid black",
+        borderWidth: "3px",
+        borderRadius: theme.shape.borderRadius,
+        borderColor: theme.palette.getContrastText(theme.palette.background.default),
+        borderStyle: "solid",
         width: "25%",
         height: "auto",
         float: "right",
         marginRight: "100px",
         marginTop: "5%",
         padding: "32px",
-        borderRadius: "10px",
     },
     avatar: {
         margin: theme.spacing(1),
@@ -31,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     container: {
         height: "100vh",
         maxWidth: "100%",
-        backgroundColor: 'rgb(251, 250, 245)',
+        backgroundColor: theme.palette.background.default,
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
@@ -58,6 +60,7 @@ export const SignUp = (props: any) => {
             // @ts-ignore
             props.history.push('/login');
         }
+        document.title = "Klipboard.me | Register";
     });
     const classes = useStyles();
     const [inputValues, setInputValues] = React.useState({

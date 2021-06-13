@@ -5,7 +5,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     container: {
         height: "100vh",
         maxWidth: "100%",
-        backgroundColor: 'rgb(251, 250, 245)',
+        backgroundColor: theme.palette.background.default,
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
@@ -32,6 +32,7 @@ export const Landing = (props: any) => {
             // @ts-ignore
             props.history.push('/dashboard');
         }
+        document.title = "Klipboard.me";
     });
 
     const classes = useStyles();
