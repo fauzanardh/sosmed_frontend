@@ -12,6 +12,7 @@ import Followings from "./pages/Followings"
 import Followers from "./pages/Followers"
 import LikedBy from "./pages/LikedBy"
 import EditProfile from "./pages/EditProfile"
+import Notifications from "./pages/Notifications"
 
 if (localStorage.jwtToken) {
     const token = localStorage.jwtToken;
@@ -33,6 +34,7 @@ function App() {
                 <Route exact path='/followings' component={Followings}/>
                 <Route exact path='/followers' component={Followers}/>
                 <Route exact path='/likedby' component={LikedBy}/>
+                <Route exact path='/notifications' component={Notifications}/>
             </Switch>
         </Router>
     );
