@@ -10,6 +10,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import {NavBar} from "../components/NavBar";
 
 const useStyles = makeStyles((theme: Theme) => ({
     avatar: {
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         position: "relative",
     },
     header: {
-        marginTop: "10%",
+        marginTop: "30px",
         textAlign: "center"
     },
     root:{
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         width: "100%",
         backgroundColor: theme.palette.background.paper,
         overflow: 'auto',
-        maxHeight: '75%',
+        maxHeight: '73%',
     },
     listitem:{
         padding: "5px 0"
@@ -48,27 +49,30 @@ const ListItemLink = (props: any) => {
 export const Notifications = (props: any) => {
     const classes = useStyles();
     return(
-        <Container component={"main"} className={classes.container}>
-            <Typography component={"h1"} variant={"h3"} className={classes.header}>
-                Notifications
-            </Typography>
-            <Container className={classes.root}>
-                <List component="nav">
-                    <ListItem button>
-                    <ListItemIcon className={classes.listitem}>
-                        <Avatar />
-                    </ListItemIcon>
-                    <ListItemText primary="displayName liked your post" />
-                    </ListItem>
-                    <ListItem button>
-                    <ListItemIcon className={classes.listitem}>
-                        <Avatar />
-                    </ListItemIcon>
-                    <ListItemText primary="displayName replied to your post" />
-                    </ListItem>
-                </List>
+        <div>
+            <NavBar />
+            <Container component={"main"} className={classes.container}>
+                <Typography component={"h1"} variant={"h3"} className={classes.header}>
+                    Notifications
+                </Typography>
+                <Container className={classes.root}>
+                    <List component="nav">
+                        <ListItem button>
+                        <ListItemIcon className={classes.listitem}>
+                            <Avatar />
+                        </ListItemIcon>
+                        <ListItemText primary="displayName liked your post" />
+                        </ListItem>
+                        <ListItem button>
+                        <ListItemIcon className={classes.listitem}>
+                            <Avatar />
+                        </ListItemIcon>
+                        <ListItemText primary="displayName replied to your post" />
+                        </ListItem>
+                    </List>
+                </Container>
             </Container>
-        </Container>
+        </div>
     )
 }
 export default Notifications;
