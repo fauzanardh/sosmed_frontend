@@ -11,6 +11,7 @@ import Profile from "./pages/Profile";
 import Followings from "./pages/Followings"
 import Followers from "./pages/Followers"
 import LikedBy from "./pages/LikedBy"
+import EditProfile from "./pages/EditProfile"
 
 if (localStorage.jwtToken) {
     const token = localStorage.jwtToken;
@@ -27,6 +28,7 @@ function App() {
                 <Route exact path='/login' component={Login}/>
                 <Route exact path='/signup' component={SignUp}/>
                 <Route exact path='/profile' component={Profile}/>
+                <Route exact path='/profile/edit' component={EditProfile}/>
                 <Route exact path='/dashboard' component={Dashboard}/>
                 <Route exact path='/followings' component={Followings}/>
                 <Route exact path='/followers' component={Followers}/>
