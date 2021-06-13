@@ -15,7 +15,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import React from "react";
 
 const user = {
     avatar: '/path/to/image.png',
@@ -48,11 +47,11 @@ const StyledTableRow = withStyles((theme: Theme) =>
     })
 )(TableRow);
 
-function createData(posts: number, followers: number, following: number) {
-    return {posts, followers, following};
+function createData(followers: number, following: number) {
+    return {followers, following};
 }
 
-const rows = [createData(4, 159, 69)];
+const rows = [createData(159, 69)];
 
 const useStyles = makeStyles((theme: Theme) => ({
     table: {
@@ -105,17 +104,13 @@ export const AccountProfile = (props: any) => {
                     <Table className={classes.table} aria-label="customized table">
                         <TableHead>
                             <TableRow>
-                                <StyledTableCell align="center">Posts</StyledTableCell>
                                 <StyledTableCell align="center">Followers</StyledTableCell>
                                 <StyledTableCell align="center">Following</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {rows.map((row) => (
-                                <StyledTableRow key={row.posts}>
-                                    <StyledTableCell align="center">
-                                        {row.posts}
-                                    </StyledTableCell>
+                                <StyledTableRow key={row.followers}>
                                     <StyledTableCell align="center">
                                         {row.followers}
                                     </StyledTableCell>
