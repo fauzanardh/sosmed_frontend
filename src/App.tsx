@@ -7,6 +7,7 @@ import Landing from './pages/Landing';
 import Login from './pages/Login';
 import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
+import EditProfile from "./pages/EditProfile"
 
 if (localStorage.jwtToken) {
     const token = localStorage.jwtToken;
@@ -23,6 +24,7 @@ function App() {
                 <Route exact path='/login' component={Login}/>
                 <Route exact path='/signup' component={SignUp}/>
                 <Route exact path='/profile' component={Profile}/>
+                <Route exact path='/profile/edit' component={EditProfile}/>
             </Switch>
         </Router>
     );
