@@ -92,10 +92,10 @@ export const AccountProfile = (props: any) => {
                         {`${user.city} ${user.country}`}
                     </Typography>
                     <Typography
-                        color="textSecondary"
+                        color="textPrimary"
                         variant="body1"
                     >
-                        {`${moment().format('hh:mm A')} ${user.timezone}`}
+                        {`I like to hit summa dat poontang`}
                     </Typography>
                 </Box>
             </CardContent>
