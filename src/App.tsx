@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import UserList from "./pages/UserList";
 import EditProfile from "./pages/EditProfile";
+import Notifications from "./pages/Notifications"
 
 function App() {
     React.useEffect(() => {
@@ -30,6 +31,7 @@ function App() {
                 <Route exact path='/dashboard' component={Dashboard}/>
                 <Route exact path='/followings' component={UserList}/>
                 <Route exact path='/followers' component={UserList}/>
+                <Route exact path='/notifications' component={Notifications}/>
             </Switch>
         </Router>
     );
