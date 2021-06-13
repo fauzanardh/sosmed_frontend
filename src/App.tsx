@@ -6,6 +6,7 @@ import {checkTokenExpired, setAuthToken} from "./utils/authToken";
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import SignUp from "./pages/SignUp";
+import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import EditProfile from "./pages/EditProfile"
 
@@ -25,6 +26,7 @@ function App() {
                 <Route exact path='/signup' component={SignUp}/>
                 <Route exact path='/profile' component={Profile}/>
                 <Route exact path='/profile/edit' component={EditProfile}/>
+                <Route exact path='/dashboard' component={Dashboard}/>
             </Switch>
         </Router>
     );
