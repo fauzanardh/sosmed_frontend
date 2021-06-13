@@ -8,10 +8,9 @@ import Login from './pages/Login';
 import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
-import Followings from "./pages/Followings"
-import Followers from "./pages/Followers"
-import LikedBy from "./pages/LikedBy"
-import EditProfile from "./pages/EditProfile"
+import Followings from "./pages/Followings";
+import Followers from "./pages/Followers";
+import EditProfile from "./pages/EditProfile";
 
 if (localStorage.jwtToken) {
     const token = localStorage.jwtToken;
@@ -32,7 +31,6 @@ function App() {
                 <Route exact path='/dashboard' component={Dashboard}/>
                 <Route exact path='/followings' component={Followings}/>
                 <Route exact path='/followers' component={Followers}/>
-                <Route exact path='/likedby' component={LikedBy}/>
             </Switch>
         </Router>
     );
