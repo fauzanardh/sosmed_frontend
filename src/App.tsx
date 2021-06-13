@@ -6,6 +6,7 @@ import {checkTokenExpired, setAuthToken} from "./utils/authToken";
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import SignUp from "./pages/SignUp";
+import Profile from "./pages/Profile";
 
 if (localStorage.jwtToken) {
     const token = localStorage.jwtToken;
