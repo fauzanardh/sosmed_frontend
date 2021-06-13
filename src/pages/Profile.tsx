@@ -1,5 +1,4 @@
 import {
-    Box,
     Container, makeStyles, Theme
 } from '@material-ui/core';
 import AccountProfile from '../components/profile/AccountProfile';
