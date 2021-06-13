@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     container: {
         height: "100vh",
         maxWidth: "100%",
-        backgroundColor: 'rgb(251, 250, 245)',
+        backgroundColor: theme.palette.background.default,
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",

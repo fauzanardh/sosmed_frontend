@@ -1,9 +1,9 @@
 import {
     Container, makeStyles, Theme
 } from '@material-ui/core';
+import React from "react";
 import AccountProfile from '../components/profile/AccountProfile';
 import EditProfileButton from '../components/profile/EditProfileButton';
-import React from "react";
 import {NavBar} from "../components/NavBar";
 import {Post} from "../components/Post";
 
@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     container: {
         height: "100vh",
         maxWidth: "100%",
-        backgroundColor: 'rgb(251, 250, 245)',
+        backgroundColor: theme.palette.background.default,
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
