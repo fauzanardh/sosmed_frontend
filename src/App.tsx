@@ -9,7 +9,6 @@ import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import UserList from "./pages/UserList";
-import EditProfile from "./pages/EditProfile";
 import Notifications from "./pages/Notifications"
 
 function App() {
@@ -27,7 +26,6 @@ function App() {
                 <Route exact path='/login' component={Login}/>
                 <Route exact path='/signup' component={SignUp}/>
                 <Route exact path='/profile' component={Profile}/>
-                <Route exact path='/profile/edit' component={EditProfile}/>
                 <Route exact path='/dashboard' component={Dashboard}/>
                 <Route exact path='/followings' component={UserList}/>
                 <Route exact path='/followers' component={UserList}/>

@@ -7,7 +7,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import SaveProfileButton from '../components/profile/SaveProfileButton'
+import SaveProfileButton from './SaveProfileButton'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,7 +21,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     container: {
         margin: 'auto',
-        alignContent: 'center'
+        alignContent: 'center',
+        backgroundColor: 'white'
     },
     formControl: {
         margin: theme.spacing(1),
@@ -42,9 +43,9 @@ const useStyles = makeStyles((theme: Theme) =>
 export const EditProfile = (props: any) => {
     const classes = useStyles();
     return (
-        <div className={classes.root}>
+        // <div className={classes.root}>
             <Container maxWidth="sm" className={classes.container}>
-                <Grid item xs={12} sm={true} align-items-xs-center>
+                <Grid item xs={12} align-items-xs-center>
                 <Paper elevation={0} className={classes.paper}>
                     <Avatar
                         // src={user.avatar}
@@ -107,7 +108,7 @@ export const EditProfile = (props: any) => {
                     <SaveProfileButton />
                 </Grid>
             </Container>
-        </div>
+        // </div>
             )
 }
 
