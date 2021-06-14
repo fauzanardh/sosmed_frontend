@@ -2,6 +2,7 @@ import React from "react";
 import {Container, makeStyles, Theme} from "@material-ui/core";
 import {NavBar} from "../components/NavBar";
 import {Post} from "../components/Post"
+import axios from "axios";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -21,29 +22,45 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 
-export const Dashboard = () => {
-    const classes = useStyles();
+export const Dashboard = (props: any) => {
+    const [posts, setPosts] = React.useState([]);
     React.useEffect(() => {
-        document.title = "Klipboard.me | Dashboard";
+        if (localStorage.jwtToken) {
+            document.title = "Klipboard.me | Dashboard";
+        } else {
+            // @ts-ignore
+            props.history.push('/');
+        }
+        if (posts.length === 0) {
+            axios({
+                method: "get",
+                url: "http://localhost:8001/feed",
+                headers: {
+                    "Authorization": `Bearer ${localStorage.jwtToken}`
+                }
+            }).then((res) => {
+                setPosts(res.data.data.posts);
+            });
+        }
     });
+    const classes = useStyles();
     return (
         <div>
             <NavBar/>
             <Container component={"main"} className={classes.container}>
-                <div className={classes.post}>
-                    <Post
-                        name={"Chocomint"}
-                        username={"chocomintx1"}
-                        dataId={""}
-                    />
-                </div>
-                <div className={classes.post}>
-                    <Post
-                        name={"Chocomint2"}
-                        username={"chocomintx2"}
-                        dataId={""}
-                    />
-                </div>
+                {
+                    posts.map((post: any) => (
+                        <div className={classes.post}>
+                            <Post
+                                author={post.author}
+                                dataId={post.dataId}
+                                text={post.text}
+                                likedBy={post.likedBy}
+                                replies={post.replies}
+                            />
+                        </div>
+                    ))
+                }
             </Container>
         </div>
     )

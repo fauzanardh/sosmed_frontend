@@ -6,6 +6,7 @@ import AccountProfile from '../components/profile/AccountProfile';
 import EditProfileButton from '../components/profile/EditProfileButton';
 import {NavBar} from "../components/NavBar";
 import {Post} from "../components/Post";
+import axios from "axios";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         display: "flex",
         position: "relative",
         justifyContent: "center",
+        flexWrap: "wrap",
     },
     post: {
         margin: theme.spacing(2),
@@ -31,7 +33,19 @@ const useStyles = makeStyles((theme: Theme) => ({
 const Profile = () => {
     React.useEffect(() => {
         document.title = "Klipboard.me | Profile - Username";
+        if (posts.length === 0) {
+            axios({
+                method: "get",
+                url: "http://localhost:8001/posts",
+                headers: {
+                    "Authorization": `Bearer ${localStorage.jwtToken}`
+                }
+            }).then((res) => {
+                setPosts(res.data.data.posts);
+            });
+        }
     });
+    const [posts, setPosts] = React.useState([]);
     const classes = useStyles();
     return (
         <div>
@@ -42,32 +56,19 @@ const Profile = () => {
                     <EditProfileButton/>
                 </div>
                 <div className={classes.posts}>
-                    <Post
-                        name={"Chocomint"}
-                        username={"chocomintx1"}
-                        dataId={""}
-                        className={classes.post}
-                    />
-                    <Post
-                        name={"Chocomint2"}
-                        username={"chocomintx2"}
-                        dataId={""}
-                        className={classes.post}
-                    />
-                </div>
-                <div className={classes.posts}>
-                    <Post
-                        name={"Chocomint"}
-                        username={"chocomintx1"}
-                        dataId={""}
-                        className={classes.post}
-                    />
-                    <Post
-                        name={"Chocomint2"}
-                        username={"chocomintx2"}
-                        dataId={""}
-                        className={classes.post}
-                    />
+                    {
+                        posts.map((post: any) => (
+                            <div className={classes.post}>
+                                <Post
+                                    author={post.author}
+                                    dataId={post.dataId}
+                                    text={post.text}
+                                    likedBy={post.likedBy}
+                                    replies={post.replies}
+                                />
+                            </div>
+                        ))
+                    }
                 </div>
             </Container>
         </div>
