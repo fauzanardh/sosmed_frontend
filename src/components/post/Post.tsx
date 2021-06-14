@@ -16,6 +16,7 @@ import {
 import {Comment, Favorite} from '@material-ui/icons';
 import _ from "lodash";
 import {UploadModal} from "./UploadModal";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -72,6 +73,28 @@ export const Post = (props: any) => {
     const handleModal = (open: boolean) => () => {
         setStateModal(open)
     }
+    const isLiked = () => {
+        const index = props.likedBy.map((user: any) => user.id).indexOf(props.myUUID);
+        return index !== -1;
+    }
+    const handleLikePostClick = () => {
+        let data;
+        if (isLiked()) {
+            data = {likeStatus: false};
+        } else {
+            data = {likeStatus: true};
+        }
+        axios({
+            method: "post",
+            url: `http://localhost:8001/posts/postId/${props.postUUID}/like`,
+            data: data,
+        }).then((res) => {
+            console.log(res);
+            if (res.status === 200) {
+                window.location.reload();
+            }
+        });
+    }
     const sorted = _.orderBy(props.replies, [o => Date.parse(o.createdAt)], ["desc"]);
     return (
         <div>
@@ -98,9 +121,11 @@ export const Post = (props: any) => {
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <IconButton aria-label={"add to favorites"}>
+                    <IconButton aria-label={"add to favorites"} onClick={handleLikePostClick}>
                         <Badge badgeContent={props.likedBy.length} color={"secondary"}>
-                            <Favorite/>
+                            {
+                                isLiked() ? <Favorite color={"secondary"}/> : <Favorite/>
+                            }
                         </Badge>
                     </IconButton>
                     <IconButton
@@ -140,20 +165,13 @@ export const Post = (props: any) => {
                                             {reply.text}
                                         </Typography>
                                     </CardContent>
-                                    <CardActions disableSpacing>
-                                        <IconButton aria-label={"add to favorites"}>
-                                            <Badge badgeContent={reply.likedBy.length} color={"secondary"}>
-                                                <Favorite/>
-                                            </Badge>
-                                        </IconButton>
-                                    </CardActions>
                                 </Card>
                             </div>
                         ))
                     }
                 </Collapse>
             </Card>
-            <UploadModal parent={props.parent} isPost={false} stateModal={stateModal} handleModal={handleModal}/>
+            <UploadModal parent={props.postUUID} isPost={false} stateModal={stateModal} handleModal={handleModal}/>
         </div>
     );
 }

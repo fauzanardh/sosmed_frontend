@@ -14,15 +14,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
-const user = {
-    avatar: '/path/to/image.png',
-    city: null,
-    country: 'Indonesia',
-    jobTitle: 'Student',
-    name: 'Mileno Valdo',
-    timezone: 'GMT+7'
-};
+import React from "react";
 
 const StyledTableCell = withStyles((theme: Theme) =>
     createStyles({
@@ -46,12 +38,6 @@ const StyledTableRow = withStyles((theme: Theme) =>
     })
 )(TableRow);
 
-function createData(followers: number, following: number) {
-    return {followers, following};
-}
-
-const rows = [createData(159, 69)];
-
 const useStyles = makeStyles((theme: Theme) => ({
     table: {
         minWidth: 500
@@ -59,6 +45,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     avatar: {
         width: "100px",
         height: "100px",
+        fontSize: 64,
         margin: theme.spacing(2),
         backgroundColor: theme.palette.secondary.main,
     },
@@ -66,48 +53,28 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const AccountProfile = (props: any) => {
     const classes = useStyles();
-
-    const location = () => {
-        if (user.country && !user.city) {
-            return `${user.country}`;
-        } else if (!user.country && user.city) {
-            return `${user.city}`
-        } else if (user.country && user.city) {
-            return `${user.city}, ${user.country}`;
-        } else {
-            return "";
-        }
-    }
-
     return (
         <Card {...props}>
             <CardContent>
                 <Box justifyContent="center">
                     <Avatar
-                        // src={user.avatar}
-                        aria-label="photo"
+                        alt={props.name}
+                        src={`https://cdn.klipboard.me/${props.profilePictureDataId}`}
+                        aria-label={"photo"}
                         className={classes.avatar}
-                    >
-                        MV
-                    </Avatar>
+                    />
                     <Typography
                         color="textPrimary"
                         gutterBottom
                         variant="h3"
                     >
-                        {user.name}
-                    </Typography>
-                    <Typography
-                        color="textSecondary"
-                        variant="body1"
-                    >
-                        {`${location()}`}
+                        {props.name}
                     </Typography>
                     <Typography
                         color="textPrimary"
                         variant="body1"
                     >
-                        {`I like to hit summa dat poontang`}
+                        {props.bio}
                     </Typography>
                 </Box>
             </CardContent>
@@ -121,16 +88,14 @@ export const AccountProfile = (props: any) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row) => (
-                                <StyledTableRow key={row.followers}>
-                                    <StyledTableCell align="center">
-                                        {row.followers}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        {row.following}
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                            ))}
+                            <StyledTableRow>
+                                <StyledTableCell align="center">
+                                    {props.followers.length}
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                    {props.following.length}
+                                </StyledTableCell>
+                            </StyledTableRow>
                         </TableBody>
                     </Table>
                 </TableContainer>

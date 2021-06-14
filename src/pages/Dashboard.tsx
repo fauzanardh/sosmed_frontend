@@ -10,6 +10,7 @@ import {Post} from "../components/post/Post";
 import axios from "axios";
 import {Add} from "@material-ui/icons";
 import {UploadModal} from "../components/post/UploadModal";
+import jwt_decode from "jwt-decode";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -47,9 +48,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const Dashboard = (props: any) => {
     const [posts, setPosts] = React.useState([]);
+    const [myUUID, setMyUUID] = React.useState([]);
     React.useEffect(() => {
         if (localStorage.jwtToken) {
             document.title = "Klipboard.me | Dashboard";
+            // @ts-ignore
+            setMyUUID(jwt_decode(localStorage.jwtToken).uuid);
         } else {
             // @ts-ignore
             props.history.push('/');
@@ -66,7 +70,7 @@ export const Dashboard = (props: any) => {
         }).then((res) => {
             setPosts(res.data.data.posts);
         });
-    }, [])
+    }, []);
     const [stateModal, setStateModal] = React.useState(false);
     const handleModal = (open: boolean) => () => {
         setStateModal(open)
@@ -80,11 +84,12 @@ export const Dashboard = (props: any) => {
                     posts.map((post: any, index) => (
                         <div className={classes.post} key={index}>
                             <Post
+                                myUUID={myUUID}
+                                postUUID={post.id}
                                 author={post.author}
                                 dataId={post.dataId}
                                 text={post.text}
                                 likedBy={post.likedBy}
-                                parent={post.id}
                                 replies={post.replies}
                             />
                         </div>
