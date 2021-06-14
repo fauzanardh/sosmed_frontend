@@ -7,25 +7,7 @@ import {
 import {makeStyles, Theme, createStyles} from '@material-ui/core/styles';
 import {UploadModal} from "./UploadModal";
 
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        modal: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
-        paper: {
-            backgroundColor: theme.palette.background.paper,
-            border: '2px solid #000',
-            boxShadow: theme.shadows[5],
-            padding: theme.spacing(2, 4, 3),
-        },
-    }),
-);
-
 export const EditProfileButton = (props: any) => {
-    const classes = useStyles();
     const [stateModal, setStateModal] = React.useState(false);
     const handleModal = (open: boolean) => () => {
         setStateModal(open)

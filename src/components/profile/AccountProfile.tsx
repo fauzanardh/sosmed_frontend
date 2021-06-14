@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const AccountProfile = (props: any) => {
     const classes = useStyles();
     return (
-        <Card {...props}>
+        <Card>
             <CardContent>
                 <Box justifyContent="center">
                     <Avatar

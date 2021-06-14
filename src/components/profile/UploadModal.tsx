@@ -40,8 +40,8 @@ export const UploadModal = (props: any) => {
     const handleTextInputChange = (prop: string) => (event: any) => {
         setTextInput({...textInput, [prop]: event.target.value});
     }
+    const [ppId, setPPId] = React.useState("");
     const handleSave = () => {
-        let ppId = "temp";
         if (fileObjects.length === 1) {
             const formData = new FormData();
             formData.append("data", fileObjects[0]);
@@ -53,7 +53,7 @@ export const UploadModal = (props: any) => {
                     'Content-Type': 'multipart/form-data'
                 }
             }).then((res) => {
-                ppId = res.data.data.dataId;
+                setPPId(res.data.data.dataId);
             });
         }
         const data = {};
@@ -77,7 +77,7 @@ export const UploadModal = (props: any) => {
             // @ts-ignore
             data.newPassword = textInput.newPassword;
         }
-        if (ppId !== "temp") {
+        if (ppId) {
             // @ts-ignore
             data.profilePictureDataId = ppId;
         }

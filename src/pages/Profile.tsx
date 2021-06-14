@@ -67,16 +67,18 @@ const Profile = () => {
         following: [],
     });
     React.useEffect(() => {
-        axios({
-            method: "get",
-            url: "http://localhost:8001/user/me",
-            headers: {
-                "Authorization": `Bearer ${localStorage.jwtToken}`
-            }
-        }).then((res) => {
-            setUserData(res.data.data);
-        });
-    }, []);
+        if (!userData.id) {
+            axios({
+                method: "get",
+                url: "http://localhost:8001/user/me",
+                headers: {
+                    "Authorization": `Bearer ${localStorage.jwtToken}`
+                }
+            }).then((res) => {
+                setUserData(res.data.data);
+            });
+        }
+    });
     const classes = useStyles();
     return (
         <div>
@@ -98,8 +100,8 @@ const Profile = () => {
                 </div>
                 <div className={classes.posts}>
                     {
-                        posts.map((post: any) => (
-                            <div className={classes.post}>
+                        posts.map((post: any, index) => (
+                            <div className={classes.post} key={index}>
                                 <Post
                                     myUUID={myUUID}
                                     postUUID={post.id}
