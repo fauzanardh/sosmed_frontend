@@ -15,10 +15,11 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { AndroidTwoTone } from '@material-ui/icons';
 
 const user = {
     avatar: '/path/to/image.png',
-    city: 'Jakarta',
+    city: null,
     country: 'Indonesia',
     jobTitle: 'Student',
     name: 'Mileno Valdo',
@@ -67,6 +68,19 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const AccountProfile = (props: any) => {
     const classes = useStyles();
+
+    const location = ()=>{
+      if (user.city == null) {
+        return `${user.country}`;
+      }else if(user.country == null){
+        return `${user.city}`
+      }else if(user.city == null && user.country == null){
+        return "";
+      }else{
+        return `${user.city}, ${user.country}`
+      }
+    }
+
     return (
         <Card {...props}>
             <CardContent>
@@ -89,7 +103,7 @@ export const AccountProfile = (props: any) => {
                         color="textSecondary"
                         variant="body1"
                     >
-                        {`${user.city} ${user.country}`}
+                        {`${location()}`}
                     </Typography>
                     <Typography
                         color="textPrimary"
