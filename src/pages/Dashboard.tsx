@@ -47,15 +47,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const Dashboard = (props: any) => {
     const [posts, setPosts] = React.useState([]);
-    axios({
-        method: "get",
-        url: "http://localhost:8001/feed",
-        headers: {
-            "Authorization": `Bearer ${localStorage.jwtToken}`
-        }
-    }).then((res) => {
-        setPosts(res.data.data.posts);
-    });
     React.useEffect(() => {
         if (localStorage.jwtToken) {
             document.title = "Klipboard.me | Dashboard";
@@ -64,6 +55,18 @@ export const Dashboard = (props: any) => {
             props.history.push('/');
         }
     });
+    // Run only once
+    React.useEffect(() => {
+        axios({
+            method: "get",
+            url: "http://localhost:8001/feed",
+            headers: {
+                "Authorization": `Bearer ${localStorage.jwtToken}`
+            }
+        }).then((res) => {
+            setPosts(res.data.data.posts);
+        });
+    }, [])
     const [stateModal, setStateModal] = React.useState(false);
     const handleModal = (open: boolean) => () => {
         setStateModal(open)
