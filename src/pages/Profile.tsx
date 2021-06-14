@@ -5,7 +5,7 @@ import React from "react";
 import AccountProfile from '../components/profile/AccountProfile';
 import EditProfileButton from '../components/profile/EditProfileButton';
 import {NavBar} from "../components/NavBar";
-import {Post} from "../components/Post";
+import {Post} from "../components/post/Post";
 import axios from "axios";
 
 const useStyles = makeStyles((theme: Theme) => ({

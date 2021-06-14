@@ -42,9 +42,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         padding: "5px 0"
     }
 }));
-const ListItemLink = (props: any) => {
-    return <ListItem button component="a" {...props} />;
-  }
 
 export const Notifications = (props: any) => {
     const classes = useStyles();

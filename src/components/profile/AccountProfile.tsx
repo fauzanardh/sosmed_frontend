@@ -1,4 +1,3 @@
-import moment from 'moment';
 import {
     Avatar,
     Box,
@@ -15,7 +14,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { AndroidTwoTone } from '@material-ui/icons';
 
 const user = {
     avatar: '/path/to/image.png',
@@ -69,16 +67,16 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const AccountProfile = (props: any) => {
     const classes = useStyles();
 
-    const location = ()=>{
-      if (user.city == null) {
-        return `${user.country}`;
-      }else if(user.country == null){
-        return `${user.city}`
-      }else if(user.city == null && user.country == null){
-        return "";
-      }else{
-        return `${user.city}, ${user.country}`
-      }
+    const location = () => {
+        if (user.country && !user.city) {
+            return `${user.country}`;
+        } else if (!user.country && user.city) {
+            return `${user.city}`
+        } else if (user.country && user.city) {
+            return `${user.city}, ${user.country}`;
+        } else {
+            return "";
+        }
     }
 
     return (
