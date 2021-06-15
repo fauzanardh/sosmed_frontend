@@ -10,7 +10,6 @@ export const EditProfileButton = (props: any) => {
     const [stateModal, setStateModal] = React.useState(false);
     const handleModal = (open: boolean) => () => {
         setStateModal(open)
-        console.log(stateModal);
     }
     return (
         <Card {...props}>

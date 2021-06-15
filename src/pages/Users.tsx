@@ -7,6 +7,7 @@ import AccountProfile from '../components/profile/AccountProfile';
 import {NavBar} from "../components/NavBar";
 import {Post} from "../components/post/Post";
 import axios from "axios";
+import Follow from "../components/profile/Follow";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -33,9 +34,21 @@ const useStyles = makeStyles((theme: Theme) => ({
 const Profile = () => {
     // @ts-ignore
     const {username} = useParams();
+    const [myUUID, setMyUUID] = React.useState("");
     React.useEffect(() => {
         document.title = `Klipboard.me | User - ${username}`;
-    }, [username]);
+        if (localStorage.jwtToken) {
+            axios({
+                method: "get",
+                url: "http://localhost:8001/user/me",
+                headers: {
+                    "Authorization": `Bearer ${localStorage.jwtToken}`
+                }
+            }).then((res) => {
+                setMyUUID(res.data.data.id);
+            });
+        }
+    }, [username, setMyUUID]);
     const [userData, setUserData] = React.useState({
         id: "",
         name: "",
@@ -47,15 +60,10 @@ const Profile = () => {
         following: [],
         posts: [],
     });
-
-    // Run only once
     React.useEffect(() => {
         axios({
             method: "get",
             url: `http://localhost:8001/user/username/${username}`,
-            headers: {
-                "Authorization": `Bearer ${localStorage.jwtToken}`
-            }
         }).then((res) => {
             setUserData(res.data.data);
         });
@@ -68,11 +76,15 @@ const Profile = () => {
                 <div>
                     <AccountProfile
                         name={userData.name}
+                        username={userData.username}
                         profilePictureDataId={userData.profilePictureDataId}
                         bio={userData.bio}
                         followers={userData.followers}
                         following={userData.following}
                     />
+                    {
+                        myUUID && myUUID !== userData.id && <Follow followers={userData.followers} uuid={userData.id} myUUID={myUUID}/>
+                    }
                 </div>
                 <div className={classes.posts}>
                     {

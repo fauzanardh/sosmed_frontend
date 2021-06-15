@@ -11,7 +11,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import {NavBar} from "../components/NavBar";
-import {useLocation} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
+import axios from "axios";
 
 const useStyles = makeStyles((theme: Theme) => ({
     avatar: {
@@ -41,11 +42,36 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-export const UserList = (props: any) => {
-    const pathname = useLocation().pathname.slice(1);
+export const UserList = () => {
+    const pathname = useLocation().pathname.split("/")[3];
+    // @ts-ignore
+    const {username} = useParams();
     React.useEffect(() => {
-        document.title = `Klipboard | ${pathname}`;
+        document.title = `Klipboard | ${username} - ${pathname}`;
+    }, [username, pathname]);
+
+    const [userData, setUserData] = React.useState({
+        id: "",
+        name: "",
+        username: "",
+        email: "",
+        bio: "",
+        profilePictureDataId: "",
+        followers: [],
+        following: [],
+        posts: [],
     });
+    React.useEffect(() => {
+        axios({
+            method: "get",
+            url: `http://localhost:8001/user/username/${username}`,
+        }).then((res) => {
+            setUserData(res.data.data);
+        });
+    }, [username]);
+    const handleClickUser = (username: any) => () => {
+        document.location.href = `/users/${username}`;
+    }
     const classes = useStyles();
     return(
         <div>
@@ -56,90 +82,26 @@ export const UserList = (props: any) => {
                 </Typography>
                 <Container className={classes.root}>
                     <List component="nav">
-                        <ListItem button>
-                            <ListItemIcon>
-                                <Avatar />
-                            </ListItemIcon>
-                            <ListItemText primary="displayName" secondary="@username"/>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <Avatar />
-                            </ListItemIcon>
-                            <ListItemText primary="displayName" secondary="@username"/>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <Avatar />
-                            </ListItemIcon>
-                            <ListItemText primary="displayName" secondary="@username"/>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <Avatar />
-                            </ListItemIcon>
-                            <ListItemText primary="displayName" secondary="@username"/>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <Avatar />
-                            </ListItemIcon>
-                            <ListItemText primary="displayName" secondary="@username"/>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <Avatar />
-                            </ListItemIcon>
-                            <ListItemText primary="displayName" secondary="@username"/>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <Avatar />
-                            </ListItemIcon>
-                            <ListItemText primary="displayName" secondary="@username"/>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <Avatar />
-                            </ListItemIcon>
-                            <ListItemText primary="displayName" secondary="@username"/>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <Avatar />
-                            </ListItemIcon>
-                            <ListItemText primary="displayName" secondary="@username"/>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <Avatar />
-                            </ListItemIcon>
-                            <ListItemText primary="displayName" secondary="@username"/>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <Avatar />
-                            </ListItemIcon>
-                            <ListItemText primary="displayName" secondary="@username"/>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <Avatar />
-                            </ListItemIcon>
-                            <ListItemText primary="displayName" secondary="@username"/>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <Avatar />
-                            </ListItemIcon>
-                            <ListItemText primary="displayName" secondary="@username"/>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <Avatar />
-                            </ListItemIcon>
-                            <ListItemText primary="displayName" secondary="@username"/>
-                        </ListItem>
+                        {
+                            pathname === "followings" && userData.following.map((user: any) => (
+                                <ListItem button onClick={handleClickUser(user.username)}>
+                                    <ListItemIcon>
+                                        <Avatar />
+                                    </ListItemIcon>
+                                    <ListItemText primary={user.name} secondary={`@${user.username}`}/>
+                                </ListItem>
+                            ))
+                        }
+                        {
+                            pathname === "followers" && userData.followers.map((user: any) => (
+                                <ListItem button onClick={handleClickUser(user.username)}>
+                                    <ListItemIcon>
+                                        <Avatar />
+                                    </ListItemIcon>
+                                    <ListItemText primary={user.name} secondary={`@${user.username}`}/>
+                                </ListItem>
+                            ))
+                        }
                     </List>
                 </Container>
             </Container>

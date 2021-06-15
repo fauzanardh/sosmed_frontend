@@ -1,6 +1,6 @@
 import {
     Avatar,
-    Box,
+    Box, Button,
     Card,
     CardContent,
     Divider,
@@ -20,11 +20,11 @@ const StyledTableCell = withStyles((theme: Theme) =>
     createStyles({
         head: {
             backgroundColor: theme.palette.common.white,
-            color: theme.palette.common.black
+            color: theme.palette.common.black,
         },
         body: {
             fontSize: 20
-        }
+        },
     })
 )(TableCell);
 
@@ -42,6 +42,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     table: {
         minWidth: 500
     },
+    button: {
+        width: "100%",
+        height: "100%",
+    },
     avatar: {
         width: "100px",
         height: "100px",
@@ -53,6 +57,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const AccountProfile = (props: any) => {
     const classes = useStyles();
+    const handleClick = (follow: string) => () => {
+        document.location.href = `/users/${props.username}/${follow}`;
+    }
     return (
         <Card>
             <CardContent>
@@ -83,8 +90,22 @@ export const AccountProfile = (props: any) => {
                     <Table className={classes.table} aria-label="customized table">
                         <TableHead>
                             <TableRow>
-                                <StyledTableCell align="center">Followers</StyledTableCell>
-                                <StyledTableCell align="center">Following</StyledTableCell>
+                                <StyledTableCell align="center">
+                                    <Button
+                                        onClick={handleClick("followers")}
+                                        className={classes.button}
+                                    >
+                                        Followers
+                                    </Button>
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                    <Button
+                                        onClick={handleClick("followings")}
+                                        className={classes.button}
+                                    >
+                                        Followings
+                                    </Button>
+                                </StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

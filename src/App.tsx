@@ -32,10 +32,10 @@ function App() {
                 <Route exact path='/signup' component={SignUp}/>
                 <Route exact path='/profile' component={Profile}/>
                 <Route exact path='/users/:username' component={Users}/>
+                <Route exact path='/users/:username/followings' component={UserList}/>
+                <Route exact path='/users/:username/followers' component={UserList}/>
                 <Route exact path='/posts/:postId' component={Posts}/>
                 <Route exact path='/dashboard' component={Dashboard}/>
-                <Route exact path='/followings' component={UserList}/>
-                <Route exact path='/followers' component={UserList}/>
                 <Route exact path='/notifications' component={Notifications}/>
                 <Route path='*' component={P404}/>
             </Switch>

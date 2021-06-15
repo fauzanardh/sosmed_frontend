@@ -8,7 +8,7 @@ import {
     CardContent,
     CardHeader,
     CardMedia,
-    Collapse,
+    Collapse, fade,
     IconButton,
     makeStyles,
     Typography
@@ -61,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
         display: "flex",
         backgroundColor: theme.palette.secondary.main,
+        "&:hover": {
+            backgroundColor: fade(theme.palette.secondary.main, 0.8),
+        },
     },
 }));
 
@@ -99,9 +102,6 @@ export const Post = (props: any) => {
     const handleClickAvatar = (username: any) => () => {
         document.location.href = `/users/${username}`;
     }
-    const handleClickHeader = (postId: any) => () => {
-        document.location.href = `/posts/${postId}`;
-    }
     const sorted = _.orderBy(props.replies, [o => Date.parse(o.createdAt)], ["desc"]);
     return (
         <div>
@@ -119,14 +119,13 @@ export const Post = (props: any) => {
                     title={props.author.name}
                     subheader={`@${props.author.username}`}
                     className={classes.border}
-                    onClick={handleClickHeader(props.postUUID)}
                 />
                 <CardMedia
                     className={classes.media}
                     image={`https://cdn.klipboard.me/${props.dataId}`}
                 />
                 <CardContent>
-                    <Typography variant={"body2"} color={"textSecondary"} component={"p"}>
+                    <Typography variant={"body2"} color={"textPrimary"} component={"p"}>
                         {props.text}
                     </Typography>
                 </CardContent>
@@ -173,7 +172,7 @@ export const Post = (props: any) => {
                                         image={`https://cdn.klipboard.me/${reply.dataId}`}
                                     />
                                     <CardContent>
-                                        <Typography variant={"body2"} color={"textSecondary"} component={"p"}>
+                                        <Typography variant={"body2"} color={"textPrimary"} component={"p"}>
                                             {reply.text}
                                         </Typography>
                                     </CardContent>

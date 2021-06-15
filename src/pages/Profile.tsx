@@ -98,6 +98,7 @@ const Profile = (props: any) => {
                 <div>
                     <AccountProfile
                         name={userData.name}
+                        username={userData.username}
                         profilePictureDataId={userData.profilePictureDataId}
                         bio={userData.bio}
                         followers={userData.followers}
