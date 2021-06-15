@@ -58,7 +58,7 @@ export const Dashboard = (props: any) => {
             // @ts-ignore
             props.history.push('/');
         }
-    });
+    }, [props.history]);
     // Run only once
     React.useEffect(() => {
         axios({
@@ -99,7 +99,12 @@ export const Dashboard = (props: any) => {
                     <Add className={classes.fabIcon}/>
                     Add Post
                 </Fab>
-                <UploadModal isPost={true} stateModal={stateModal} handleModal={handleModal}/>
+                <UploadModal
+                    isPost={true}
+                    stateModal={stateModal}
+                    handleModal={handleModal}
+                    setStateModal={setStateModal}
+                />
             </Container>
         </div>
     )

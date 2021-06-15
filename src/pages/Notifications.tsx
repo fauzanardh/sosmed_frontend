@@ -4,13 +4,15 @@ import {
     makeStyles,
     Theme,
     Typography,
-    Avatar,
+    Avatar
 } from "@material-ui/core";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import {NavBar} from "../components/NavBar";
+import axios from "axios";
+import {Comment, LibraryBooks, PersonAdd} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) => ({
     avatar: {
@@ -30,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         marginTop: "30px",
         textAlign: "center"
     },
-    root:{
+    root: {
         marginTop: "20px",
         marginLeft: "auto",
         width: "100%",
@@ -38,34 +40,93 @@ const useStyles = makeStyles((theme: Theme) => ({
         overflow: 'auto',
         maxHeight: '73%',
     },
-    listitem:{
+    listItem: {
         padding: "5px 0"
     }
 }));
 
 export const Notifications = (props: any) => {
+    const [notifications, setNotifications] = React.useState([]);
+    React.useEffect(() => {
+        if (localStorage.jwtToken) {
+            document.title = "Klipboard.me | Notifications";
+        } else {
+            // @ts-ignore
+            props.history.push('/');
+        }
+    }, [props.history]);
+    React.useEffect(() => {
+        axios({
+            method: "get",
+            url: "http://localhost:8001/notification",
+            headers: {
+                "Authorization": `Bearer ${localStorage.jwtToken}`
+            }
+        }).then((res) => {
+            if (res.status === 200) {
+                setNotifications(res.data.data);
+            }
+        });
+    }, []);
+    const handleButtonOnclick = (uri: string, notificationUUID: string) => () => {
+        axios({
+            method: "post",
+            url: `http://localhost:8001/notification/${notificationUUID}`,
+            headers: {
+                "Authorization": `Bearer ${localStorage.jwtToken}`
+            }
+        }).then((res) => {
+            if (res.status === 200) {
+                props.history.push(uri);
+            }
+        });
+    }
+    const getIcon = (notificationType: number) => {
+        switch (notificationType) {
+            case 0:
+                // post liked
+                return (<LibraryBooks color={"secondary"}/>)
+            case 1:
+                // new reply
+                return (<Comment/>)
+            case 2:
+                // reply liked
+                return (<Comment color={"secondary"}/>)
+            case 3:
+                // new follower
+                return (<PersonAdd/>)
+        }
+    }
     const classes = useStyles();
-    return(
+    return (
         <div>
-            <NavBar />
+            <NavBar/>
             <Container component={"main"} className={classes.container}>
                 <Typography component={"h1"} variant={"h3"} className={classes.header}>
                     Notifications
                 </Typography>
                 <Container className={classes.root}>
                     <List component="nav">
-                        <ListItem button>
-                        <ListItemIcon className={classes.listitem}>
-                            <Avatar />
-                        </ListItemIcon>
-                        <ListItemText primary="displayName liked your post" />
-                        </ListItem>
-                        <ListItem button>
-                        <ListItemIcon className={classes.listitem}>
-                            <Avatar />
-                        </ListItemIcon>
-                        <ListItemText primary="displayName replied to your post" />
-                        </ListItem>
+                        {
+                            notifications.map((notification: any, index) => (
+                                <ListItem
+                                    button
+                                    onClick={handleButtonOnclick(notification.uri, notification.uuid)}
+                                    key={index}
+                                >
+                                    <ListItemIcon className={classes.listItem}>
+                                        <Avatar
+                                            alt={notification.from.name}
+                                            src={`https://cdn.klipboard.me/${notification.from.profilePictureDataId}`}
+                                            aria-label={"photo"}
+                                            className={classes.avatar}
+                                        />
+                                    </ListItemIcon>
+                                    <ListItemText primary={notification.message}/>
+                                    {getIcon(notification.type)}
+                                </ListItem>
+                            ))
+                        }
                     </List>
                 </Container>
             </Container>

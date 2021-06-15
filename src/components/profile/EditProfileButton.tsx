@@ -4,7 +4,6 @@ import {
     Card,
     CardActions,
 } from '@material-ui/core';
-import {makeStyles, Theme, createStyles} from '@material-ui/core/styles';
 import {UploadModal} from "./UploadModal";
 
 export const EditProfileButton = (props: any) => {

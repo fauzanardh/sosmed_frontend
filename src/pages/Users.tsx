@@ -1,15 +1,12 @@
 import {
-    Container, Fab, makeStyles, Theme
+    Container, makeStyles, Theme
 } from '@material-ui/core';
+import {useParams} from "react-router-dom";
 import React from "react";
 import AccountProfile from '../components/profile/AccountProfile';
-import EditProfileButton from '../components/profile/EditProfileButton';
 import {NavBar} from "../components/NavBar";
 import {Post} from "../components/post/Post";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
-import {Add} from "@material-ui/icons";
-import {UploadModal} from "../components/post/UploadModal";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -31,29 +28,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     post: {
         margin: theme.spacing(2),
     },
-    fab: {
-        position: "fixed",
-        bottom: theme.spacing(2),
-        right: theme.spacing(2),
-    },
-    fabIcon: {
-        marginRight: theme.spacing(2),
-    },
 }));
 
-const Profile = (props: any) => {
-    const [myUUID, setMyUUID] = React.useState([]);
+const Profile = () => {
+    // @ts-ignore
+    const {username} = useParams();
     React.useEffect(() => {
-        if (localStorage.jwtToken) {
-            const decodedToken: any = jwt_decode(localStorage.jwtToken);
-            setMyUUID(decodedToken.uuid);
-            document.title = `Klipboard.me | Profile - ${decodedToken.username}`;
-        } else {
-            // @ts-ignore
-            props.history.push('/');
-        }
-    }, [props.history]);
-    const [posts, setPosts] = React.useState([]);
+        document.title = `Klipboard.me | User - ${username}`;
+    }, [username]);
     const [userData, setUserData] = React.useState({
         id: "",
         name: "",
@@ -63,33 +45,21 @@ const Profile = (props: any) => {
         profilePictureDataId: "",
         followers: [],
         following: [],
+        posts: [],
     });
 
     // Run only once
     React.useEffect(() => {
         axios({
             method: "get",
-            url: "http://localhost:8001/posts",
-            headers: {
-                "Authorization": `Bearer ${localStorage.jwtToken}`
-            }
-        }).then((res) => {
-            setPosts(res.data.data.posts);
-        });
-        axios({
-            method: "get",
-            url: "http://localhost:8001/user/me",
+            url: `http://localhost:8001/user/username/${username}`,
             headers: {
                 "Authorization": `Bearer ${localStorage.jwtToken}`
             }
         }).then((res) => {
             setUserData(res.data.data);
         });
-    }, []);
-    const [stateModal, setStateModal] = React.useState(false);
-    const handleModal = (open: boolean) => () => {
-        setStateModal(open)
-    }
+    }, [username]);
     const classes = useStyles();
     return (
         <div>
@@ -103,18 +73,13 @@ const Profile = (props: any) => {
                         followers={userData.followers}
                         following={userData.following}
                     />
-                    <EditProfileButton
-                        name={userData.name}
-                        email={userData.email}
-                        bio={userData.bio}
-                    />
                 </div>
                 <div className={classes.posts}>
                     {
-                        posts.map((post: any, index) => (
+                        userData.posts.map((post: any, index) => (
                             <div className={classes.post} key={index}>
                                 <Post
-                                    myUUID={myUUID}
+                                    myUUID={userData.id}
                                     postUUID={post.id}
                                     author={post.author}
                                     dataId={post.dataId}
@@ -126,16 +91,6 @@ const Profile = (props: any) => {
                         ))
                     }
                 </div>
-                <Fab variant={"extended"} color={"primary"} className={classes.fab} onClick={handleModal(true)}>
-                    <Add className={classes.fabIcon}/>
-                    Add Post
-                </Fab>
-                <UploadModal
-                    isPost={true}
-                    stateModal={stateModal}
-                    handleModal={handleModal}
-                    setStateModal={setStateModal}
-                />
             </Container>
         </div>
     )

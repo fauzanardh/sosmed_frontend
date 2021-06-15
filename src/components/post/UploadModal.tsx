@@ -57,7 +57,6 @@ export const UploadModal = (props: any) => {
                         },
                     }).then((res) => {
                         if (res.status === 200) {
-                            window.location.reload();
                             props.setStateModal(false);
                             setFileObjects([]);
                             setTextInput("");
@@ -74,13 +73,13 @@ export const UploadModal = (props: any) => {
                         },
                     }).then((res) => {
                         if (res.status === 200) {
-                            window.location.reload();
                             props.setStateModal(false);
                             setFileObjects([]);
                             setTextInput("");
                         }
                     });
                 }
+                window.location.reload();
             });
         }
     }

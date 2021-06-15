@@ -8,9 +8,14 @@ import {
     MenuItem,
     IconButton,
     Badge,
-    AppBar, Toolbar, InputBase, Link, Paper
+    AppBar,
+    Toolbar,
+    InputBase,
+    Link,
+    Paper
 } from "@material-ui/core";
 import {AccountCircle, Notifications, Search} from "@material-ui/icons";
+import axios from "axios";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -89,6 +94,20 @@ export const NavBar = () => {
         console.log(searchValue);
     }
 
+    const [notifications, setNotifications] = React.useState([]);
+
+    React.useEffect(() => {
+        axios({
+            method: "get",
+            url: "http://localhost:8001/notification",
+            headers: {
+                "Authorization": `Bearer ${localStorage.jwtToken}`
+            }
+        }).then((res) => {
+            setNotifications(res.data.data);
+        });
+    }, []);
+
     const menuId = "navbar-menu";
     const renderMenu = (
         <Menu
@@ -96,7 +115,6 @@ export const NavBar = () => {
             anchorOrigin={{vertical: "top", horizontal: "right"}}
             id={menuId}
             keepMounted
-            transformOrigin={{vertical: "top", horizontal: "right"}}
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
@@ -105,7 +123,11 @@ export const NavBar = () => {
                     Profile
                 </MenuItem>
             </Link>
-            <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
+            <Link href={"/logout"}>
+                <MenuItem onClick={handleMenuClose}>
+                    Logout
+                </MenuItem>
+            </Link>
         </Menu>
     );
     return (
@@ -134,8 +156,12 @@ export const NavBar = () => {
                     </Paper>
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
-                        <IconButton aria-label={"show 17 new notifications"} color={"inherit"}>
-                            <Badge badgeContent={17} color={"secondary"}>
+                        <IconButton
+                            aria-label={`show ${notifications.length} new notifications`}
+                            color={"inherit"}
+                            href={"/notifications"}
+                        >
+                            <Badge badgeContent={notifications.length} color={"secondary"}>
                                 <Notifications/>
                             </Badge>
                         </IconButton>
