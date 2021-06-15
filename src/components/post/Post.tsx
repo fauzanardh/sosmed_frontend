@@ -23,14 +23,15 @@ const useStyles = makeStyles((theme) => ({
         width: 600,
         margin: theme.spacing(1, 2),
     },
+    border: {
+        borderWidth: "2px",
+        borderColor: theme.palette.getContrastText(theme.palette.background.default),
+        borderRadius: theme.shape.borderRadius,
+        borderStyle: "solid none",
+    },
     media: {
         height: 0,
         paddingTop: '56.25%', // 16:9
-    },
-    replies: {
-        borderWidth: "2px",
-        borderColor: theme.palette.getContrastText(theme.palette.background.default),
-        borderStyle: "solid none",
     },
     replyRoot: {
         display: "flex",
@@ -95,6 +96,12 @@ export const Post = (props: any) => {
             }
         });
     }
+    const handleClickAvatar = (username: any) => () => {
+        document.location.href = `/users/${username}`;
+    }
+    const handleClickHeader = (postId: any) => () => {
+        document.location.href = `/posts/${postId}`;
+    }
     const sorted = _.orderBy(props.replies, [o => Date.parse(o.createdAt)], ["desc"]);
     return (
         <div>
@@ -106,10 +113,13 @@ export const Post = (props: any) => {
                             src={`https://cdn.klipboard.me/${props.author.profilePictureDataId}`}
                             aria-label={"photo"}
                             className={classes.avatar}
+                            onClick={handleClickAvatar(props.author.name)}
                         />
                     }
                     title={props.author.name}
                     subheader={`@${props.author.username}`}
+                    className={classes.border}
+                    onClick={handleClickHeader(props.postUUID)}
                 />
                 <CardMedia
                     className={classes.media}
@@ -139,11 +149,12 @@ export const Post = (props: any) => {
                     </IconButton>
                 </CardActions>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <Button color={"primary"} className={classes.uploadButton} onClick={handleModal(true)}>New Comment</Button>
+                    <Button color={"primary"} className={classes.uploadButton} onClick={handleModal(true)}>New
+                        Comment</Button>
                     {
                         sorted.map((reply: any, index) => (
                             <div key={index}>
-                                <Card className={classes.replies}>
+                                <Card className={classes.border}>
                                     <CardHeader
                                         avatar={
                                             <Avatar
@@ -151,6 +162,7 @@ export const Post = (props: any) => {
                                                 src={`https://cdn.klipboard.me/${reply.author.profilePictureDataId}`}
                                                 aria-label={"photo"}
                                                 className={classes.avatar}
+                                                onClick={handleClickAvatar(reply.author.username)}
                                             />
                                         }
                                         title={reply.author.name}
