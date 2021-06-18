@@ -11,6 +11,7 @@ import axios from "axios";
 import {Add} from "@material-ui/icons";
 import {UploadModal} from "../components/post/UploadModal";
 import jwt_decode from "jwt-decode";
+import ErrorDialog from "../components/errors/ErrorDialog";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -59,7 +60,7 @@ export const Dashboard = (props: any) => {
             props.history.push('/');
         }
     }, [props.history]);
-    // Run only once
+    const [errorDialog, setErrorDialog] = React.useState(false);
     React.useEffect(() => {
         axios({
             method: "get",
@@ -69,7 +70,7 @@ export const Dashboard = (props: any) => {
             }
         }).then((res) => {
             setPosts(res.data.data.posts);
-        });
+        }).catch(() => setErrorDialog(true));
     }, []);
     const [stateModal, setStateModal] = React.useState(false);
     const handleModal = (open: boolean) => () => {
@@ -105,6 +106,7 @@ export const Dashboard = (props: any) => {
                     handleModal={handleModal}
                     setStateModal={setStateModal}
                 />
+                <ErrorDialog isOpen={errorDialog}/>
             </Container>
         </div>
     )

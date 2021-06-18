@@ -8,6 +8,7 @@ import {NavBar} from "../components/NavBar";
 import {Post} from "../components/post/Post";
 import axios from "axios";
 import Follow from "../components/profile/Follow";
+import ErrorDialog from "../components/errors/ErrorDialog";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -35,6 +36,7 @@ const Profile = () => {
     // @ts-ignore
     const {username} = useParams();
     const [myUUID, setMyUUID] = React.useState("");
+    const [errorDialog, setErrorDialog] = React.useState(false);
     React.useEffect(() => {
         document.title = `Klipboard.me | User - ${username}`;
         if (localStorage.jwtToken) {
@@ -46,7 +48,7 @@ const Profile = () => {
                 }
             }).then((res) => {
                 setMyUUID(res.data.data.id);
-            });
+            }).catch(() => setErrorDialog(true));
         }
     }, [username, setMyUUID]);
     const [userData, setUserData] = React.useState({
@@ -66,7 +68,7 @@ const Profile = () => {
             url: `http://localhost:8001/user/username/${username}`,
         }).then((res) => {
             setUserData(res.data.data);
-        });
+        }).catch(() => setErrorDialog(true));
     }, [username]);
     const classes = useStyles();
     return (
@@ -103,6 +105,7 @@ const Profile = () => {
                         ))
                     }
                 </div>
+                <ErrorDialog isOpen={errorDialog}/>
             </Container>
         </div>
     )

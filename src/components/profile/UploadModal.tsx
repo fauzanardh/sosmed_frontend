@@ -81,7 +81,6 @@ export const UploadModal = (props: any) => {
             // @ts-ignore
             data.profilePictureDataId = ppId;
         }
-        console.log(data);
         axios({
             method: "patch",
             url: "http://localhost:8001/user",

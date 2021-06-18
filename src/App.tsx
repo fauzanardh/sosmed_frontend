@@ -14,6 +14,7 @@ import Logout from "./pages/Logout";
 import Users from "./pages/Users";
 import Posts from "./pages/Posts";
 import P404 from "./pages/404";
+import Search from "./pages/Search";
 
 function App() {
     React.useEffect(() => {
@@ -35,6 +36,7 @@ function App() {
                 <Route exact path='/users/:username/followings' component={UserList}/>
                 <Route exact path='/users/:username/followers' component={UserList}/>
                 <Route exact path='/posts/:postId' component={Posts}/>
+                <Route exact path='/search/:search' component={Search}/>
                 <Route exact path='/dashboard' component={Dashboard}/>
                 <Route exact path='/notifications' component={Notifications}/>
                 <Route path='*' component={P404}/>

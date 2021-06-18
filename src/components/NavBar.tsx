@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 import {AccountCircle, Notifications, Search} from "@material-ui/icons";
 import axios from "axios";
+import ErrorDialog from "./errors/ErrorDialog";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -91,11 +92,11 @@ export const NavBar = () => {
         setSearchValue(event.target.value);
     }
     const handleSearchClick = () => {
-        console.log(searchValue);
+        window.location.href = `/search/${encodeURI(searchValue)}`
     }
 
     const [notifications, setNotifications] = React.useState([]);
-
+    const [errorDialog, setErrorDialog] = React.useState(false);
     React.useEffect(() => {
         axios({
             method: "get",
@@ -105,7 +106,7 @@ export const NavBar = () => {
             }
         }).then((res) => {
             setNotifications(res.data.data);
-        });
+        }).catch(() => setErrorDialog(true));
     }, []);
 
     const menuId = "navbar-menu";
@@ -179,6 +180,7 @@ export const NavBar = () => {
                 </Toolbar>
             </AppBar>
             {renderMenu}
+            <ErrorDialog isOpen={errorDialog}/>
         </div>
     )
 }

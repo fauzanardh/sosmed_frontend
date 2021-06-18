@@ -11,7 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import {NavBar} from "../components/NavBar";
-import {useLocation, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import axios from "axios";
 import ErrorDialog from "../components/errors/ErrorDialog";
 
@@ -44,33 +44,19 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export const UserList = () => {
-    const pathname = useLocation().pathname.split("/")[3];
     // @ts-ignore
-    const {username} = useParams();
+    const {search} = useParams();
+    const [searchResults, setSearchResults] = React.useState([]);
     React.useEffect(() => {
-        document.title = `Klipboard | ${username} - ${pathname}`;
-    }, [username, pathname]);
-
-    const [userData, setUserData] = React.useState({
-        id: "",
-        name: "",
-        username: "",
-        email: "",
-        bio: "",
-        profilePictureDataId: "",
-        followers: [],
-        following: [],
-        posts: [],
-    });
-    const [errorDialog, setErrorDialog] = React.useState(false);
-    React.useEffect(() => {
+        document.title = `Klipboard | Search - ${decodeURI(search)}`;
         axios({
             method: "get",
-            url: `http://localhost:8001/user/username/${username}`,
+            url: `http://localhost:8001/search?keyword=${search}`,
         }).then((res) => {
-            setUserData(res.data.data);
+            setSearchResults(res.data.data.users);
         }).catch(() => setErrorDialog(true));
-    }, [username]);
+    }, [search]);
+    const [errorDialog, setErrorDialog] = React.useState(false);
     const handleClickUser = (username: any) => () => {
         document.location.href = `/users/${username}`;
     }
@@ -80,22 +66,12 @@ export const UserList = () => {
             <NavBar/>
             <Container component={"main"} className={classes.container}>
                 <Typography component={"h1"} variant={"h3"} className={classes.header}>
-                    {pathname === "followings" ? "Followings" : "Followers" }
+                    Search Results
                 </Typography>
                 <Container className={classes.root}>
                     <List component="nav">
                         {
-                            pathname === "followings" && userData.following.map((user: any) => (
-                                <ListItem button onClick={handleClickUser(user.username)}>
-                                    <ListItemIcon>
-                                        <Avatar />
-                                    </ListItemIcon>
-                                    <ListItemText primary={user.name} secondary={`@${user.username}`}/>
-                                </ListItem>
-                            ))
-                        }
-                        {
-                            pathname === "followers" && userData.followers.map((user: any) => (
+                            searchResults.map((user: any) => (
                                 <ListItem button onClick={handleClickUser(user.username)}>
                                     <ListItemIcon>
                                         <Avatar />

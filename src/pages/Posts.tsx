@@ -8,6 +8,7 @@ import {NavBar} from "../components/NavBar";
 import {Post} from "../components/post/Post";
 import axios from "axios";
 import {useParams} from "react-router-dom";
+import ErrorDialog from "../components/errors/ErrorDialog";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -52,6 +53,7 @@ export const Posts = () => {
     React.useEffect(() => {
         document.title = "Klipboard.me | Posts";
     }, []);
+    const [errorDialog, setErrorDialog] = React.useState(false);
     React.useEffect(() => {
         axios({
             method: "get",
@@ -63,8 +65,8 @@ export const Posts = () => {
                 url: `http://localhost:8001/user/uuid/${res.data.data.authorId}`,
             }).then((_res) => {
                 setAuthor(_res.data.data);
-            });
-        });
+            }).catch(() => setErrorDialog(true));
+        }).catch(() => setErrorDialog(true));
     }, [postId]);
     const classes = useStyles();
     return (
@@ -82,6 +84,7 @@ export const Posts = () => {
                         replies={post.replies}
                     />
                 </div>
+                <ErrorDialog isOpen={errorDialog}/>
             </Container>
         </div>
     )

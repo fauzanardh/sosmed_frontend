@@ -11,6 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import {NavBar} from "../components/NavBar";
 import axios from "axios";
 import {Comment, LibraryBooks, PersonAdd} from "@material-ui/icons";
+import ErrorDialog from "../components/errors/ErrorDialog";
 
 const useStyles = makeStyles((theme: Theme) => ({
     avatar: {
@@ -53,6 +54,7 @@ export const Notifications = (props: any) => {
             props.history.push('/');
         }
     }, [props.history]);
+    const [errorDialog, setErrorDialog] = React.useState(false);
     React.useEffect(() => {
         axios({
             method: "get",
@@ -64,7 +66,7 @@ export const Notifications = (props: any) => {
             if (res.status === 200) {
                 setNotifications(res.data.data);
             }
-        });
+        }).catch(() => setErrorDialog(true));
     }, []);
     const handleButtonOnclick = (uri: string, notificationUUID: string) => () => {
         axios({
@@ -77,7 +79,7 @@ export const Notifications = (props: any) => {
             if (res.status === 200) {
                 props.history.push(uri);
             }
-        });
+        }).catch(() => setErrorDialog(true));
     }
     const getIcon = (notificationType: number) => {
         switch (notificationType) {
@@ -119,6 +121,7 @@ export const Notifications = (props: any) => {
                         }
                     </List>
                 </Container>
+                <ErrorDialog isOpen={errorDialog}/>
             </Container>
         </div>
     )

@@ -10,6 +10,7 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 import {Add} from "@material-ui/icons";
 import {UploadModal} from "../components/post/UploadModal";
+import ErrorDialog from "../components/errors/ErrorDialog";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -65,7 +66,7 @@ const Profile = (props: any) => {
         following: [],
     });
 
-    // Run only once
+    const [errorDialog, setErrorDialog] = React.useState(false);
     React.useEffect(() => {
         axios({
             method: "get",
@@ -75,7 +76,7 @@ const Profile = (props: any) => {
             }
         }).then((res) => {
             setPosts(res.data.data.posts);
-        });
+        }).catch(() => setErrorDialog(true));
         axios({
             method: "get",
             url: "http://localhost:8001/user/me",
@@ -84,7 +85,7 @@ const Profile = (props: any) => {
             }
         }).then((res) => {
             setUserData(res.data.data);
-        });
+        }).catch(() => setErrorDialog(true));
     }, []);
     const [stateModal, setStateModal] = React.useState(false);
     const handleModal = (open: boolean) => () => {
@@ -137,6 +138,7 @@ const Profile = (props: any) => {
                     handleModal={handleModal}
                     setStateModal={setStateModal}
                 />
+                <ErrorDialog isOpen={errorDialog}/>
             </Container>
         </div>
     )
