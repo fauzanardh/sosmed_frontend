@@ -66,7 +66,7 @@ export const UserList = () => {
     React.useEffect(() => {
         axios({
             method: "get",
-            url: `http://localhost:8001/user/username/${username}`,
+            url: `https://api.klipboard.me/user/username/${username}`,
         }).then((res) => {
             setUserData(res.data.data);
         }).catch(() => setErrorDialog(true));

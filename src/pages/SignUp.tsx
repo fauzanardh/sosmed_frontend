@@ -80,7 +80,7 @@ export const SignUp = (props: any) => {
         if (inputValues.password === inputValues.confirmPassword) {
             axios({
                 method: "post",
-                url: "http://localhost:8001/user",
+                url: "https://api.klipboard.me/user",
                 data: {
                     "name": inputValues.name,
                     "username": inputValues.username,

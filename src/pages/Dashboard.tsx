@@ -64,7 +64,7 @@ export const Dashboard = (props: any) => {
     React.useEffect(() => {
         axios({
             method: "get",
-            url: "http://localhost:8001/feed",
+            url: "https://api.klipboard.me/feed",
             headers: {
                 "Authorization": `Bearer ${localStorage.jwtToken}`
             }

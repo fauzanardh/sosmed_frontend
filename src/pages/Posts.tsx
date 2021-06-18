@@ -57,12 +57,12 @@ export const Posts = () => {
     React.useEffect(() => {
         axios({
             method: "get",
-            url: `http://localhost:8001/posts/postId/${postId}`,
+            url: `https://api.klipboard.me/posts/postId/${postId}`,
         }).then((res) => {
             setPost(res.data.data);
             axios({
                 method: "get",
-                url: `http://localhost:8001/user/uuid/${res.data.data.authorId}`,
+                url: `https://api.klipboard.me/user/uuid/${res.data.data.authorId}`,
             }).then((_res) => {
                 setAuthor(_res.data.data);
             }).catch(() => setErrorDialog(true));

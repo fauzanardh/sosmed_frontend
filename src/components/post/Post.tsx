@@ -92,7 +92,7 @@ export const Post = (props: any) => {
         }
         axios({
             method: "post",
-            url: `http://localhost:8001/posts/postId/${props.postUUID}/like`,
+            url: `https://api.klipboard.me/posts/postId/${props.postUUID}/like`,
             data: data,
         }).then((res) => {
             console.log(res);

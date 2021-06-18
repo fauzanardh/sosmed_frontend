@@ -70,7 +70,7 @@ const Profile = (props: any) => {
     React.useEffect(() => {
         axios({
             method: "get",
-            url: "http://localhost:8001/posts",
+            url: "https://api.klipboard.me/posts",
             headers: {
                 "Authorization": `Bearer ${localStorage.jwtToken}`
             }
@@ -79,7 +79,7 @@ const Profile = (props: any) => {
         }).catch(() => setErrorDialog(true));
         axios({
             method: "get",
-            url: "http://localhost:8001/user/me",
+            url: "https://api.klipboard.me/user/me",
             headers: {
                 "Authorization": `Bearer ${localStorage.jwtToken}`
             }

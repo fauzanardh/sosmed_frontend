@@ -78,7 +78,7 @@ export const Login = (props: any) => {
     const handleClick = () => {
         axios({
             method: "post",
-            url: "http://localhost:8001/login",
+            url: "https://api.klipboard.me/login",
             data: {
                 "username": inputValues.username,
                 "password": inputValues.password

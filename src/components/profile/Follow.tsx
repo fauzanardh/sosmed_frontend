@@ -22,7 +22,7 @@ export const Follow = (props: any) => {
         }
         axios({
             method: "post",
-            url: `http://localhost:8001/user/follow/${props.uuid}`,
+            url: `https://api.klipboard.me/user/follow/${props.uuid}`,
             data: data,
         }).then((res) => {
             console.log(res);

@@ -42,7 +42,7 @@ export const UploadModal = (props: any) => {
             formData.append("data", fileObjects[0]);
             axios({
                 method: "post",
-                url: "http://localhost:8001/upload",
+                url: "https://api.klipboard.me/upload",
                 data: formData,
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -52,7 +52,7 @@ export const UploadModal = (props: any) => {
                 if (props.isPost) {
                     axios({
                         method: "post",
-                        url: "http://localhost:8001/posts",
+                        url: "https://api.klipboard.me/posts",
                         data: {
                             dataId: dataId,
                             text: textInput,
@@ -67,7 +67,7 @@ export const UploadModal = (props: any) => {
                 } else {
                     axios({
                         method: "post",
-                        url: "http://localhost:8001/reply",
+                        url: "https://api.klipboard.me/reply",
                         data: {
                             parentPostId: props.parent,
                             dataId: dataId,

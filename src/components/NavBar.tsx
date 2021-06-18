@@ -100,7 +100,7 @@ export const NavBar = () => {
     React.useEffect(() => {
         axios({
             method: "get",
-            url: "http://localhost:8001/notification",
+            url: "https://api.klipboard.me/notification",
             headers: {
                 "Authorization": `Bearer ${localStorage.jwtToken}`
             }

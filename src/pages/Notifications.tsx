@@ -58,7 +58,7 @@ export const Notifications = (props: any) => {
     React.useEffect(() => {
         axios({
             method: "get",
-            url: "http://localhost:8001/notification",
+            url: "https://api.klipboard.me/notification",
             headers: {
                 "Authorization": `Bearer ${localStorage.jwtToken}`
             }
@@ -71,7 +71,7 @@ export const Notifications = (props: any) => {
     const handleButtonOnclick = (uri: string, notificationUUID: string) => () => {
         axios({
             method: "post",
-            url: `http://localhost:8001/notification/${notificationUUID}`,
+            url: `https://api.klipboard.me/notification/${notificationUUID}`,
             headers: {
                 "Authorization": `Bearer ${localStorage.jwtToken}`
             }

@@ -51,7 +51,7 @@ export const UserList = () => {
         document.title = `Klipboard | Search - ${decodeURI(search)}`;
         axios({
             method: "get",
-            url: `http://localhost:8001/search?keyword=${search}`,
+            url: `https://api.klipboard.me/search?keyword=${search}`,
         }).then((res) => {
             setSearchResults(res.data.data.users);
         }).catch(() => setErrorDialog(true));
