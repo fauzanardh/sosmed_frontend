@@ -104,7 +104,7 @@ export const UploadModal = (props: any) => {
         });
     }
     const dialogActions = (
-        <DialogActions>
+        <div>
             <Button
                 variant={"contained"}
                 color={"primary"}
@@ -119,7 +119,7 @@ export const UploadModal = (props: any) => {
             >
                 Submit
             </Button>
-        </DialogActions>
+        </div>
     )
     const classes = useStyles();
     return (
@@ -185,9 +185,11 @@ export const UploadModal = (props: any) => {
                             onChange={handleTextInputChange("currentPassword")}
                         />
                     </DialogContent>
-                    {
-                        isUploading ? <CircularProgress/> : dialogActions
-                    }
+                    <DialogActions>
+                        {
+                            isUploading ? <CircularProgress/> : dialogActions
+                        }
+                    </DialogActions>
                 </Dialog>
             </Modal>
         </div>

@@ -115,7 +115,7 @@ export const Post = (props: any) => {
                             src={`https://cdn.klipboard.me/${props.author.profilePictureDataId}`}
                             aria-label={"photo"}
                             className={classes.avatar}
-                            onClick={handleClickAvatar(props.author.name)}
+                            onClick={handleClickAvatar(props.author.username)}
                         />
                     }
                     title={props.author.name}
