@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import {
     Backdrop,
-    Button,
+    Button, CircularProgress,
     Dialog,
     DialogActions,
     DialogContent,
@@ -41,8 +41,10 @@ export const UploadModal = (props: any) => {
         setTextInput({...textInput, [prop]: event.target.value});
     }
     const [ppId, setPPId] = React.useState("");
+    const [isUploading, setIsUploading] = React.useState(false);
     const handleSave = () => {
         if (fileObjects.length === 1) {
+            setIsUploading(true);
             const formData = new FormData();
             formData.append("data", fileObjects[0]);
             axios({
@@ -87,6 +89,7 @@ export const UploadModal = (props: any) => {
             data: data,
         }).then((res) => {
             if (res.status === 200) {
+                setIsUploading(false);
                 window.location.reload();
                 props.setStateModal(false);
                 setFileObjects([]);
@@ -100,6 +103,24 @@ export const UploadModal = (props: any) => {
             }
         });
     }
+    const dialogActions = (
+        <DialogActions>
+            <Button
+                variant={"contained"}
+                color={"primary"}
+                onClick={props.handleModal(false)}
+            >
+                Cancel
+            </Button>
+            <Button
+                variant={"contained"}
+                color={"primary"}
+                onClick={handleSave}
+            >
+                Submit
+            </Button>
+        </DialogActions>
+    )
     const classes = useStyles();
     return (
         <div>
@@ -164,22 +185,9 @@ export const UploadModal = (props: any) => {
                             onChange={handleTextInputChange("currentPassword")}
                         />
                     </DialogContent>
-                    <DialogActions>
-                        <Button
-                            variant={"contained"}
-                            color={"primary"}
-                            onClick={props.handleModal(false)}
-                        >
-                            Cancel
-                        </Button>
-                        <Button
-                            variant={"contained"}
-                            color={"primary"}
-                            onClick={handleSave}
-                        >
-                            Submit
-                        </Button>
-                    </DialogActions>
+                    {
+                        isUploading ? <CircularProgress/> : dialogActions
+                    }
                 </Dialog>
             </Modal>
         </div>

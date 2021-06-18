@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import {
     Backdrop,
-    Button,
+    Button, CircularProgress,
     Dialog,
     DialogActions,
     DialogContent,
@@ -35,9 +35,11 @@ export const UploadModal = (props: any) => {
     const handleTextInputChange = (event: any) => {
         setTextInput(event.target.value);
     }
+    const [isUploading, setIsUploading] = React.useState(false);
     const [errorDialog, setErrorDialog] = React.useState(false);
     const handleSave = () => {
         if (textInput.length !== 0) {
+            setIsUploading(true);
             const formData = new FormData();
             formData.append("data", fileObjects[0]);
             axios({
@@ -59,6 +61,7 @@ export const UploadModal = (props: any) => {
                         },
                     }).then((res) => {
                         if (res.status === 200) {
+                            setIsUploading(false);
                             props.setStateModal(false);
                             setFileObjects([]);
                             setTextInput("");
@@ -75,6 +78,7 @@ export const UploadModal = (props: any) => {
                         },
                     }).then((res) => {
                         if (res.status === 200) {
+                            setIsUploading(false);
                             props.setStateModal(false);
                             setFileObjects([]);
                             setTextInput("");
@@ -85,6 +89,25 @@ export const UploadModal = (props: any) => {
             });
         }
     }
+    const dialogActions = (
+        <DialogActions>
+            <Button
+                variant={"contained"}
+                color={"primary"}
+                onClick={props.handleModal(false)}
+            >
+                Cancel
+            </Button>
+            <Button
+                variant={"contained"}
+                color={"primary"}
+                disabled={fileObjects.length === 0}
+                onClick={handleSave}
+            >
+                Submit
+            </Button>
+        </DialogActions>
+    )
     const classes = useStyles();
     return (
         <div>
@@ -119,23 +142,9 @@ export const UploadModal = (props: any) => {
                             onChange={handleTextInputChange}
                         />
                     </DialogContent>
-                    <DialogActions>
-                        <Button
-                            variant={"contained"}
-                            color={"primary"}
-                            onClick={props.handleModal(false)}
-                        >
-                            Cancel
-                        </Button>
-                        <Button
-                            variant={"contained"}
-                            color={"primary"}
-                            disabled={fileObjects.length === 0}
-                            onClick={handleSave}
-                        >
-                            Submit
-                        </Button>
-                    </DialogActions>
+                    {
+                        isUploading ? <CircularProgress/> : dialogActions
+                    }
                 </Dialog>
             </Modal>
             <ErrorDialog isOpen={errorDialog}/>
