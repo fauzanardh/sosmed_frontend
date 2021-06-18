@@ -4,11 +4,9 @@ import {
     makeStyles,
     Theme,
     Typography,
-    Avatar
 } from "@material-ui/core";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import {NavBar} from "../components/NavBar";
 import axios from "axios";
@@ -114,14 +112,6 @@ export const Notifications = (props: any) => {
                                     onClick={handleButtonOnclick(notification.uri, notification.uuid)}
                                     key={index}
                                 >
-                                    <ListItemIcon className={classes.listItem}>
-                                        <Avatar
-                                            alt={notification.from.name}
-                                            src={`https://cdn.klipboard.me/${notification.from.profilePictureDataId}`}
-                                            aria-label={"photo"}
-                                            className={classes.avatar}
-                                        />
-                                    </ListItemIcon>
                                     <ListItemText primary={notification.message}/>
                                     {getIcon(notification.type)}
                                 </ListItem>

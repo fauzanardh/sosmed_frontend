@@ -17,6 +17,7 @@ import {Comment, Favorite} from '@material-ui/icons';
 import _ from "lodash";
 import {UploadModal} from "./UploadModal";
 import axios from "axios";
+import ErrorDialog from "../errors/ErrorDialog";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -81,6 +82,7 @@ export const Post = (props: any) => {
         const index = props.likedBy.map((user: any) => user.id).indexOf(props.myUUID);
         return index !== -1;
     }
+    const [errorDialog, setErrorDialog] = React.useState(false);
     const handleLikePostClick = () => {
         let data;
         if (isLiked()) {
@@ -97,7 +99,7 @@ export const Post = (props: any) => {
             if (res.status === 200) {
                 window.location.reload();
             }
-        });
+        }).catch(() => setErrorDialog(true));
     }
     const handleClickAvatar = (username: any) => () => {
         document.location.href = `/users/${username}`;
@@ -183,6 +185,7 @@ export const Post = (props: any) => {
                 </Collapse>
             </Card>
             <UploadModal parent={props.postUUID} isPost={false} stateModal={stateModal} handleModal={handleModal}/>
+            <ErrorDialog isOpen={errorDialog}/>
         </div>
     );
 }

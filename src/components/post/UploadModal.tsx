@@ -12,6 +12,7 @@ import {
     TextField
 } from "@material-ui/core";
 import {DropzoneArea} from "material-ui-dropzone";
+import ErrorDialog from "../errors/ErrorDialog";
 
 const useStyles = makeStyles(() => ({
     modal: {
@@ -34,6 +35,7 @@ export const UploadModal = (props: any) => {
     const handleTextInputChange = (event: any) => {
         setTextInput(event.target.value);
     }
+    const [errorDialog, setErrorDialog] = React.useState(false);
     const handleSave = () => {
         if (textInput.length !== 0) {
             const formData = new FormData();
@@ -61,7 +63,7 @@ export const UploadModal = (props: any) => {
                             setFileObjects([]);
                             setTextInput("");
                         }
-                    });
+                    }).catch(() => setErrorDialog(true));
                 } else {
                     axios({
                         method: "post",
@@ -77,7 +79,7 @@ export const UploadModal = (props: any) => {
                             setFileObjects([]);
                             setTextInput("");
                         }
-                    });
+                    }).catch(() => setErrorDialog(true));
                 }
                 window.location.reload();
             });
@@ -136,6 +138,7 @@ export const UploadModal = (props: any) => {
                     </DialogActions>
                 </Dialog>
             </Modal>
+            <ErrorDialog isOpen={errorDialog}/>
         </div>
     )
 }

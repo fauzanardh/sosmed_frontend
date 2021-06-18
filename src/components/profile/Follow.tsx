@@ -5,12 +5,14 @@ import {
     CardActions,
 } from '@material-ui/core';
 import axios from "axios";
+import ErrorDialog from "../errors/ErrorDialog";
 
 export const Follow = (props: any) => {
     const isFollowed = () => {
         const index = props.followers.map((user: any) => user.id).indexOf(props.myUUID);
         return index !== -1;
     }
+    const [errorDialog, setErrorDialog] = React.useState(false);
     const followUser = () => {
         let data;
         if (isFollowed()) {
@@ -27,21 +29,24 @@ export const Follow = (props: any) => {
             if (res.status === 200) {
                 window.location.reload();
             }
-        });
+        }).catch(() => setErrorDialog(true));
     }
     return (
-        <Card {...props}>
-            <CardActions>
-                <Button
-                    color="primary"
-                    fullWidth
-                    variant="text"
-                    onClick={followUser}
-                >
-                    {isFollowed() ? "Unfollow" : "Follow"}
-                </Button>
-            </CardActions>
-        </Card>
+        <div>
+            <Card {...props}>
+                <CardActions>
+                    <Button
+                        color="primary"
+                        fullWidth
+                        variant="text"
+                        onClick={followUser}
+                    >
+                        {isFollowed() ? "Unfollow" : "Follow"}
+                    </Button>
+                </CardActions>
+            </Card>
+            <ErrorDialog isOpen={errorDialog}/>
+        </div>
     );
 }
 
